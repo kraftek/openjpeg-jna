@@ -1,18 +1,21 @@
 package openjp2.struct;
 
-import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+import com.sun.jna.ptr.ByteByReference;
+import com.sun.jna.ptr.LongByReference;
+import openjp2.library.Callbacks;
+
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.jna.ptr.ByteByReference;
-import com.sun.jna.ptr.LongByReference;
-import openjp2.callback.Callbacks;
-import openjp2.types.EventManagerPointer;
-import openjp2.callback.Callbacks.StreamWriteFunction;
-
 public class Stream extends Structure {
+
+    private static final List<String> fieldNames =
+            Arrays.asList("m_user_data", "m_free_user_data_fn", "m_user_data_length", "m_read_fn", "m_write_fn",
+                    "m_skip_fn", "m_seek_fn", "m_stored_data", "m_current_data", "m_bytes_in_buffer", "m_byte_offset",
+                    "m_buffer_size", "m_status");
+
     /**
      * User data, be it files, ... The actual data depends on the type of the stream.
      * C type : void*
@@ -34,23 +37,23 @@ public class Stream extends Structure {
      * Pointer to actual read function (NULL at the initialization of the cio.
      * C type : StreamReadFunction
      */
-    public Callbacks.StreamReadFunction m_read_fn;
+    public Callbacks.StreamReadWriteFunction m_read_fn;
     /**
      * Pointer to actual write function (NULL at the initialization of the cio.
      * C type : StreamWriteFunction
      */
-    public StreamWriteFunction m_write_fn;
+    public Callbacks.StreamReadWriteFunction m_write_fn;
     /**
      * Pointer to actual skip function (NULL at the initialization of the cio.
      * There is no seek function to prevent from back and forth slow procedures.
      * C type : StreamSkipFunction
      */
-    public Callbacks.StreamSkipFunction m_skip_fn;
+    public Callbacks.StreamSkipSeekFunction m_skip_fn;
     /**
      * Pointer to actual seek function (if available).
      * C type : StreamSeekFunction
      */
-    public Callbacks.StreamSeekFunction m_seek_fn;
+    public Callbacks.StreamSkipSeekFunction m_seek_fn;
     /**
      * Actual data stored into the stream if readed from. Data is read by chunk of fixed size.
      * you should never access this data directly.
@@ -86,13 +89,13 @@ public class Stream extends Structure {
     
     public Stream() {
         super();
-    };
+    }
     public Stream(Pointer peer) {
         super(peer);
-    };
+    }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("m_user_data", "m_free_user_data_fn", "m_user_data_length", "m_read_fn", "m_write_fn", "m_skip_fn", "m_seek_fn", "m_stored_data", "m_current_data", "m_bytes_in_buffer", "m_byte_offset", "m_buffer_size", "m_status");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
     
     public static class ByReference extends Stream implements Structure.ByReference { }

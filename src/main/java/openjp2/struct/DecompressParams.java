@@ -2,10 +2,16 @@ package openjp2.struct;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class DecompressParameters extends Structure {
+public class DecompressParams extends Structure {
+
+    private static final List<String> fieldNames =
+            Arrays.asList("core", "infile", "outfile", "decod_format", "cod_format", "indexfilename", "DA_x0", "DA_x1",
+                    "DA_y0", "DA_y1", "m_verbose", "tile_index", "nb_tile_to_decode", "precision", "nb_precision",
+                    "force_rgb", "upsample", "split_pnm");
 
     public static int OPJ_PATH_LEN = 4096;
 
@@ -13,7 +19,7 @@ public class DecompressParameters extends Structure {
      * core library parameters<br>
      * C type : opj_dparameters_t
      */
-    public DParameters.ByReference core;
+    public DecompressCoreParams.ByReference core;
     /**
      * input file name<br>
      * C type : char[OPJ_PATH_LEN]
@@ -79,19 +85,19 @@ public class DecompressParameters extends Structure {
     /** split output components to different files */
     public int split_pnm;
 
-    public DecompressParameters() {
+    public DecompressParams() {
         super();
-        core = new DParameters.ByReference();
+        core = new DecompressCoreParams.ByReference();
         precision = new Precision.ByReference();
     }
-    public DecompressParameters(Pointer peer) {
+    public DecompressParams(Pointer peer) {
         super(peer);
     }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("core", "infile", "outfile", "decod_format", "cod_format", "indexfilename", "DA_x0", "DA_x1", "DA_y0", "DA_y1", "m_verbose", "tile_index", "nb_tile_to_decode", "precision", "nb_precision", "force_rgb", "upsample", "split_pnm");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
 
-    public static class ByReference extends DecompressParameters implements Structure.ByReference { }
-    public static class ByValue extends DecompressParameters implements Structure.ByValue { }
+    public static class ByReference extends DecompressParams implements Structure.ByReference { }
+    public static class ByValue extends DecompressParams implements Structure.ByValue { }
 }

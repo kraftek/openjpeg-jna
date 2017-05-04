@@ -1,36 +1,28 @@
-package openjp2.callback;
+package openjp2.library;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 import openjp2.struct.*;
+import openjp2.types.EventManagerPointer;
 import openjp2.types.FilePointer;
 import openjp2.types.NativeSize;
-import openjp2.types.EventManagerPointer;
 
 /**
- * Created by kraftek on 9/1/2016.
+ * Callbacks (i.e. function pointers) holder class.
  */
 public class Callbacks {
 
-    public interface MessageFunction extends Callback {
+    public interface MessageFunction extends GenericCallback {
         void invoke(Pointer msg, Pointer client_data);
     }
 
-    public interface StreamReadFunction extends Callback {
+    public interface StreamReadWriteFunction extends Callback {
         NativeSize invoke(Pointer p_buffer, NativeSize p_nb_bytes, Pointer p_user_data);
     }
 
-    public interface StreamWriteFunction extends Callback {
-        NativeSize invoke(Pointer p_buffer, NativeSize p_nb_bytes, Pointer p_user_data);
-    }
-
-    public interface StreamSkipFunction extends Callback {
+    public interface StreamSkipSeekFunction extends Callback {
         long invoke(long p_nb_bytes, Pointer p_user_data);
-    }
-
-    public interface StreamSeekFunction extends Callback {
-        int invoke(long p_nb_bytes, Pointer p_user_data);
     }
 
     public interface StreamFreeUserDataFunction extends Callback {
@@ -56,7 +48,7 @@ public class Callbacks {
         void invoke(Pointer p_codec);
     }
     public interface SetupDecoderCallback extends Callback {
-        void invoke(Pointer p_codec, DParameters p_param);
+        void invoke(Pointer p_codec, DecompressCoreParams p_param);
     }
     public interface SetDecodeAreaCallback extends Callback {
         int invoke(Pointer p_codec, Image p_image, int p_start_x, int p_end_x, int p_start_y, int p_end_y, EventManagerPointer p_manager);
@@ -82,7 +74,7 @@ public class Callbacks {
     }
     
     public interface SetupEncoderCallback extends Callback {
-        int invoke(Pointer p_codec, CParameters p_param, Image p_image, EventManagerPointer p_manager);
+        int invoke(Pointer p_codec, CompressionParams p_param, Image p_image, EventManagerPointer p_manager);
     }
 
     public interface DumpCodecCallback extends Callback {

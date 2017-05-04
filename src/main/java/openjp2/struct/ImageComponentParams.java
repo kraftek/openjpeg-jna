@@ -2,19 +2,18 @@ package openjp2.struct;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
-import com.sun.jna.ptr.IntByReference;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Header source:   openjpeg.h
- * C structure:     opj_image_comp_t
+ * C structure:     opj_image_comptparm
  */
-public class ImageComponent extends Structure {
+public class ImageComponentParams extends Structure {
 
     private static final List<String> fieldNames =
-            Arrays.asList("dx", "dy", "w", "h", "x0", "y0", "prec", "bpp", "sgnd", "resno_decoded", "factor", "data", "alpha");
+            Arrays.asList("dx", "dy", "w", "h", "x0", "y0", "prec", "bpp", "sgnd");
 
     /**
      * XRsiz: horizontal separation of a sample of ith component with respect to the reference grid
@@ -43,44 +42,41 @@ public class ImageComponent extends Structure {
     /**
      * precision
      */
-    public int prec; /* OPJ_UINT32 */
+    public int prec;  /* OPJ_UINT32 */
     /**
      * image depth in bits
      */
-    public int bpp; /* OPJ_UINT32 */
+    public int bpp;  /* OPJ_UINT32 */
     /**
      * signed (1) / unsigned (0)
      */
-    public int sgnd; /* OPJ_UINT32 */
-    /**
-     * number of decoded resolution
-     */
-    public int resno_decoded; /* OPJ_UINT32 */
-    /**
-     * number of division by 2 of the out image compared to the original size of image
-     */
-    public int factor; /* OPJ_UINT32 */
-    /**
-     * image component data
-     */
-    public IntByReference data; /* OPJ_INT32* */
-    /**
-     * alpha channel
-     */
-    public short alpha; /* OPJ_UINT16 */
+    public int sgnd;  /* OPJ_UINT32 */
 
-    public ImageComponent() {
+    public ImageComponentParams() {
         super();
-        data = new IntByReference();
     }
-    public ImageComponent(Pointer peer) {
+
+    public ImageComponentParams(Pointer peer) {
         super(peer);
+    }
+
+    public ImageComponentParams(int dx, int dy, int w, int h, int x0, int y0, int prec, int bpp, int sgnd) {
+        super();
+        this.dx = dx;
+        this.dy = dy;
+        this.w = w;
+        this.h = h;
+        this.x0 = x0;
+        this.y0 = y0;
+        this.prec = prec;
+        this.bpp = bpp;
+        this.sgnd = sgnd;
     }
 
     protected List<?> getFieldOrder() {
         return fieldNames;
     }
 
-    public static class ByReference extends ImageComponent implements Structure.ByReference { }
-    public static class ByValue extends ImageComponent implements Structure.ByValue { }
+    public static class ByReference extends ImageComponentParams implements Structure.ByReference { }
+    public static class ByValue extends ImageComponentParams implements Structure.ByValue { }
 }

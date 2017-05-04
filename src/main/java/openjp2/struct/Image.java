@@ -7,77 +7,61 @@ import com.sun.jna.ptr.ByteByReference;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Header source:   openjpeg.h
+ * C structure:     opj_image_t
+ */
 public class Image extends Structure {
+
+    private static final List<String> fieldNames =
+            Arrays.asList("x0", "y0", "x1", "y1", "numcomps", "color_space", "comps", "icc_profile_buf", "icc_profile_len");
+
     /**
      * XOsiz: horizontal offset from the origin of the reference grid to the left side of the image area
-     * C type : OPJ_UINT32
      */
-    public int x0;
+    public int x0; /* OPJ_UINT32 */
     /**
      * YOsiz: vertical offset from the origin of the reference grid to the top side of the image area
-     * C type : OPJ_UINT32
      */
-    public int y0;
+    public int y0; /* OPJ_UINT32 */
     /**
      * Xsiz: width of the reference grid
-     * C type : OPJ_UINT32
      */
-    public int x1;
+    public int x1;/* OPJ_UINT32 */
     /**
      * Ysiz: height of the reference grid
-     * C type : OPJ_UINT32
      */
-    public int y1;
+    public int y1; /* OPJ_UINT32 */
     /**
      * number of components in the image
-     * C type : OPJ_UINT32
      */
-    public int numcomps;
+    public int numcomps; /* OPJ_UINT32 */
     /**
      * color space: sRGB, Greyscale or YUV
-     * C type : OPJ_COLOR_SPACE
      */
-    public int color_space;
+    public int color_space; /* OPJ_COLOR_SPACE */
     /**
      * image components
-     * C type : opj_image_comp_t*
      */
-    public ImageComponent.ByReference comps;
+    public ImageComponent.ByReference comps; /* opj_image_comp_t* */
     /**
      * 'restricted' ICC profile
-     * C type : OPJ_BYTE*
      */
-    public ByteByReference icc_profile_buf;
+    public ByteByReference icc_profile_buf; /* OPJ_BYTE* */
     /**
      * size of ICC profile
-     * C type : OPJ_UINT32
      */
-    public int icc_profile_len;
+    public int icc_profile_len; /* OPJ_UINT32 */
 
     public Image() {
         super();
         comps = new ImageComponent.ByReference();
     }
-    /**
-     * @param x0 XOsiz: horizontal offset from the origin of the reference grid to the left side of the image area
-     * C type : OPJ_UINT32
-     * @param y0 YOsiz: vertical offset from the origin of the reference grid to the top side of the image area
-     * C type : OPJ_UINT32
-     * @param x1 Xsiz: width of the reference grid
-     * C type : OPJ_UINT32
-     * @param y1 Ysiz: height of the reference grid
-     * C type : OPJ_UINT32
-     * @param numcomps number of components in the image
-     * C type : OPJ_UINT32
-     * @param color_space color space: sRGB, Greyscale or YUV
-     * C type : OPJ_COLOR_SPACE
-     * @param comps image components
-     * C type : opj_image_comp_t*
-     * @param icc_profile_buf 'restricted' ICC profile
-     * C type : OPJ_BYTE*
-     * @param icc_profile_len size of ICC profile
-     * C type : OPJ_UINT32
-     */
+
+    public Image(Pointer peer) {
+        super(peer);
+    }
+
     public Image(int x0, int y0, int x1, int y1, int numcomps, int color_space, ImageComponent.ByReference comps, ByteByReference icc_profile_buf, int icc_profile_len) {
         super();
         this.x0 = x0;
@@ -90,12 +74,9 @@ public class Image extends Structure {
         this.icc_profile_buf = icc_profile_buf;
         this.icc_profile_len = icc_profile_len;
     }
-    public Image(Pointer peer) {
-        super(peer);
-    }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("x0", "y0", "x1", "y1", "numcomps", "color_space", "comps", "icc_profile_buf", "icc_profile_len");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
     
     public static class ByReference extends Image implements Structure.ByReference { }

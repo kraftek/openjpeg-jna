@@ -2,10 +2,14 @@ package openjp2.struct;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class PacketInfo extends Structure {
+
+    private static final List<String> fieldNames = Arrays.asList("start_pos", "end_ph_pos", "end_pos", "disto");
+
     /**
      * packet start position (including SOP marker if it exists)<br>
      * C type : OPJ_OFF_T
@@ -47,8 +51,8 @@ public class PacketInfo extends Structure {
         super(peer);
     }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("start_pos", "end_ph_pos", "end_pos", "disto");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
 
     public static class ByReference extends PacketInfo implements Structure.ByReference { }

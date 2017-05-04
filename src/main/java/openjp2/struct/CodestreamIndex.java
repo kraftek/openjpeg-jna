@@ -2,67 +2,51 @@ package openjp2.struct;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+
 import java.util.Arrays;
 import java.util.List;
- 
+
 public class CodestreamIndex extends Structure {
+
+    private static final List<String> fieldNames =
+            Arrays.asList("main_head_start", "main_head_end", "codestream_size", "marknum", "marker", "maxmarknum", "nb_of_tiles", "tile_index");
     /**
      * main header start position (SOC position)
-     * C type : OPJ_OFF_T
      */
-    public long main_head_start;
+    public /*OPJ_OFF_T*/ long main_head_start;
     /**
      * main header end position (first SOT position)
-     * C type : OPJ_OFF_T
      */
-    public long main_head_end;
+    public /*OPJ_OFF_T*/ long main_head_end;
     /**
      * codestream's size
-     * C type : OPJ_UINT64
      */
-    public long codestream_size;
+    public /*OPJ_UINT64*/ long codestream_size;
     /**
      * number of markers
-     * C type : OPJ_UINT32
      */
-    public int marknum;
+    public /* OPJ_UINT32 */ int marknum;
     /**
      * list of markers
-     * C type : opj_marker_info_t*
      */
-    public MarkerInfo.ByReference marker;
+    public /* opj_marker_info_t* */ MarkerInfo.ByReference marker;
     /**
      * actual size of markers array
-     * C type : OPJ_UINT32
      */
-    public int maxmarknum;
-    /** C type : OPJ_UINT32 */
-    public int nb_of_tiles;
-    /**
-     * C type : opj_tile_index_t*
-     */
-    public TileIndex.ByReference tile_index;
+    public /* OPJ_UINT32 */ int maxmarknum;
+
+    public /* OPJ_UINT32 */ int nb_of_tiles;
+
+    public /* opj_tile_index_t* */ TileIndex.ByReference tile_index;
 
     public CodestreamIndex() {
         super();
     }
-    /**
-     * @param main_head_start main header start position (SOC position)
-     * C type : OPJ_OFF_T
-     * @param main_head_end main header end position (first SOT position)
-     * C type : OPJ_OFF_T
-     * @param codestream_size codestream's size
-     * C type : OPJ_UINT64
-     * @param marknum number of markers
-     * C type : OPJ_UINT32
-     * @param marker list of markers
-     * C type : opj_marker_info_t*
-     * @param maxmarknum actual size of markers array
-     * C type : OPJ_UINT32
-     * @param nb_of_tiles C type : OPJ_UINT32
-     * @param tile_index FIXME not used for the moment
-     * C type : opj_tile_index_t*
-     */
+
+    public CodestreamIndex(Pointer peer) {
+        super(peer);
+    }
+
     public CodestreamIndex(long main_head_start, long main_head_end, long codestream_size, int marknum, MarkerInfo.ByReference marker, int maxmarknum, int nb_of_tiles, TileIndex.ByReference tile_index) {
         super();
         this.main_head_start = main_head_start;
@@ -74,12 +58,9 @@ public class CodestreamIndex extends Structure {
         this.nb_of_tiles = nb_of_tiles;
         this.tile_index = tile_index;
     }
-    public CodestreamIndex(Pointer peer) {
-        super(peer);
-    }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("main_head_start", "main_head_end", "codestream_size", "marknum", "marker", "maxmarknum", "nb_of_tiles", "tile_index");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
 
     public static class ByReference extends CodestreamIndex implements Structure.ByReference { }

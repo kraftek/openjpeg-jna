@@ -3,10 +3,22 @@ package openjp2.struct;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
+
 import java.util.Arrays;
 import java.util.List;
 
-public class CParameters extends Structure {
+public class CompressionParams extends Structure {
+
+    private static final List<String> fieldNames =
+            Arrays.asList("tile_size_on", "cp_tx0", "cp_ty0", "cp_tdx", "cp_tdy", "cp_disto_alloc", "cp_fixed_alloc",
+                    "cp_fixed_quality", "cp_matrice", "cp_comment", "csty", "prog_order", "POC", "numpocs", "tcp_numlayers",
+                    "tcp_rates", "tcp_distoratio", "numresolution", "cblockw_init", "cblockh_init", "mode", "irreversible",
+                    "roi_compno", "roi_shift", "res_spec", "prcw_init", "prch_init", "infile", "outfile", "index_on",
+                    "index", "image_offset_x0", "image_offset_y0", "subsampling_dx", "subsampling_dy", "decod_format",
+                    "cod_format", "jpwl_epc_on", "jpwl_hprot_MH", "jpwl_hprot_TPH_tileno", "jpwl_hprot_TPH",
+                    "jpwl_pprot_tileno", "jpwl_pprot_packno", "jpwl_pprot", "jpwl_sens_size", "jpwl_sens_addr",
+                    "jpwl_sens_range", "jpwl_sens_MH", "jpwl_sens_TPH_tileno", "jpwl_sens_TPH", "cp_cinema",
+                    "max_comp_size", "cp_rsiz", "tp_on", "tp_flag", "tcp_mct", "jpip_on", "mct_data", "max_cs_size", "rsiz");
     /**
      * size of tile: tile_size_on = false (not in argument) or = true (in argument)
      * C type : OPJ_BOOL
@@ -192,7 +204,7 @@ public class CParameters extends Structure {
     /** Flag for Tile part generation */
     public byte tp_flag;
     /** MCT (multiple component transform) */
-    public byte tcp_mct;
+    public char tcp_mct;
     /**
      * Enable JPIP indexing
      * C type : OPJ_BOOL
@@ -218,17 +230,17 @@ public class CParameters extends Structure {
      */
     public short rsiz;
 
-    public CParameters() {
+    public CompressionParams() {
         super();
     }
-    public CParameters(Pointer peer) {
+    public CompressionParams(Pointer peer) {
         super(peer);
     }
 
-    protected List<? > getFieldOrder() {
-        return Arrays.asList("tile_size_on", "cp_tx0", "cp_ty0", "cp_tdx", "cp_tdy", "cp_disto_alloc", "cp_fixed_alloc", "cp_fixed_quality", "cp_matrice", "cp_comment", "csty", "prog_order", "POC", "numpocs", "tcp_numlayers", "tcp_rates", "tcp_distoratio", "numresolution", "cblockw_init", "cblockh_init", "mode", "irreversible", "roi_compno", "roi_shift", "res_spec", "prcw_init", "prch_init", "infile", "outfile", "index_on", "index", "image_offset_x0", "image_offset_y0", "subsampling_dx", "subsampling_dy", "decod_format", "cod_format", "jpwl_epc_on", "jpwl_hprot_MH", "jpwl_hprot_TPH_tileno", "jpwl_hprot_TPH", "jpwl_pprot_tileno", "jpwl_pprot_packno", "jpwl_pprot", "jpwl_sens_size", "jpwl_sens_addr", "jpwl_sens_range", "jpwl_sens_MH", "jpwl_sens_TPH_tileno", "jpwl_sens_TPH", "cp_cinema", "max_comp_size", "cp_rsiz", "tp_on", "tp_flag", "tcp_mct", "jpip_on", "mct_data", "max_cs_size", "rsiz");
+    protected List<?> getFieldOrder() {
+        return fieldNames;
     }
 
-    public static class ByReference extends CParameters implements Structure.ByReference { }
-    public static class ByValue extends CParameters implements Structure.ByValue { }
+    public static class ByReference extends CompressionParams implements Structure.ByReference { }
+    public static class ByValue extends CompressionParams implements Structure.ByValue { }
 }
